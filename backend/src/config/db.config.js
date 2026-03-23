@@ -1,7 +1,7 @@
 export default {
-  HOST: "192.168.56.102",
-  USER: "userAction",
-  PASSWORD: "userAction",
+  HOST: "192.168.56.40",
+  USER: "appAction", // userAction
+  PASSWORD: "appAction", // userAction
   DB: "appAction",
   PORT: 3306,
   dialect: "mysql",

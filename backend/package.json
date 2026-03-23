@@ -4,6 +4,9 @@
   "type": "module",
   "main": "src/db/connexionBdd.js",
   "scripts": {
+    "dev": "nodemon src/server.js",
+    "start": "node src/server.js",
+    "import:action": "node scripts/import-action-magasins.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -11,6 +14,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "bcrypt": "^6.0.0",
     "cors": "^2.8.6",
     "express": "^5.2.1",
     "mysql2": "^3.19.0",

@@ -1,9 +1,17 @@
 import express from "express";
-import { getAllEmployes, createEmploye } from "../controller/employe.controller.js";
+import {
+	createEmploye,
+	getAllEmployes,
+	getEmployeByEmail,
+	loginEmploye,
+} from "../controller/employe.controller.js";
 
 const router = express.Router();
 
-router.get("/employes", getAllEmployes); // -> info get pour récupérer tous les employés
-router.post("/employes", createEmploye); // -> info post pour créer un nouvel employé
+router.get("/", getAllEmployes);
+router.post("/", createEmploye);
+router.get("/email/:email", getEmployeByEmail);
+router.post("/login", loginEmploye);
+
 
 export default router;

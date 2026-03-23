@@ -20,7 +20,8 @@ export default class Employe extends Model {
     },
     matriculeEmploye: {
       type: DataTypes.STRING(50),
-      allowNull: true
+      allowNull: false,
+      unique: true
     },
     mdpEmploye: {
       type: DataTypes.STRING(255),
@@ -75,6 +76,14 @@ export default class Employe extends Model {
         using: "BTREE",
         fields: [
           { name: "type_contrat_id" },
+        ]
+      },
+      {
+        name: "UQ_Employe_matriculeEmploye",
+        unique: true,
+        using: "BTREE",
+        fields: [
+          { name: "matriculeEmploye" },
         ]
       },
     ]

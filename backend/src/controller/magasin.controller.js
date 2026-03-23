@@ -7,8 +7,8 @@ export const getAllMagasins = async (req, res) => {
     const listeMagasins = await Magasin.findAll();
     res.status(200).json(listeMagasins);
     } catch(error){
-        console.error("Erreur lors de la récupération des Magasins :", error);
-        res.status(500).json({ error: "Une erreur est survenue lors de la récupération des Magasins." });
+        console.error("Erreur lors de la recuperation des Magasins :", error);
+        res.status(500).json({ error: "Une erreur est survenue lors de la recuperation des Magasins." });
     }
 }
 
