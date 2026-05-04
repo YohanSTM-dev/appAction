@@ -32,9 +32,12 @@ export default function Direction() {
         </div>
       )}
 
-      <div style={{ marginTop: "20px", display: "flex", gap: "10px" }}>
-        <button type="button" onClick={() => navigate("/employes")}>Voir les employes</button>
-        <button type="button" onClick={handleLogout}>Se deconnecter</button>
+      <div style={{ marginTop: "20px", display: "flex", gap: "10px", flexWrap: "wrap" }}>
+        <button type="button" onClick={() => navigate("/employes")}>Voir les employés</button>
+        <button type="button" onClick={() => navigate("/conge/gestion")} style={{ background: "#22c55e", color: "#fff", border: "none", padding: "6px 14px", borderRadius: "4px", cursor: "pointer" }}>
+          🗓 Gérer les congés
+        </button>
+        <button type="button" onClick={handleLogout}>Se déconnecter</button>
       </div>
     </div>
   );

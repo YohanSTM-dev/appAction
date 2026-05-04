@@ -4,6 +4,8 @@ import db from "./db/connexionBdd.js";
 import employeRoutes from "./routes/employe.routes.js";
 import magasinRoutes from "./routes/magasin.routes.js";
 import typeContratRoutes from "./routes/typeContrat.routes.js";
+import congeRoutes from "./routes/conge.routes.js";
+import paieRoutes from "./routes/paie.routes.js";
 
 const app = express();
 
@@ -22,6 +24,8 @@ db.sequelize
 app.use("/api/employes", employeRoutes);
 app.use("/api/magasins", magasinRoutes);
 app.use("/api/typeContrats", typeContratRoutes);
+app.use("/api/conges", congeRoutes);
+app.use("/api/paie", paieRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {

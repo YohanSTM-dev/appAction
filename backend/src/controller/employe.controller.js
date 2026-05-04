@@ -2,6 +2,8 @@ import db from "../db/connexionBdd.js";
 import bcrypt from "bcrypt";
 
 const Employe = db.models.Employe;
+// Modèle Role nécessaire pour la jointure lors du login
+const Role = db.models.Role;
 const SALT_ROUNDS = 12;
 const BCRYPT_HASH_REGEX = /^\$2[aby]\$\d{2}\$.{53}$/;
 
@@ -91,8 +93,15 @@ export const loginEmploye = async (req, res) => {
             return res.status(400).json({ error: "Email et mot de passe obligatoires." });
         }
 
+        // Récupère l'employé ET ses rôles en une seule requête via la table de liaison employe_role
         const employe = await Employe.findOne({
             where: { emailEmploye: String(emailEmploye).trim() },
+            include: [{
+                model: Role,
+                as: "role_id_Roles",
+                through: { attributes: [] }, // on n'expose pas les colonnes de la table de liaison
+                attributes: ["id", "nomRole"],
+            }],
         });
 
         if (!employe) {
@@ -122,6 +131,12 @@ export const loginEmploye = async (req, res) => {
 
         const employeJson = employe.toJSON();
         delete employeJson.mdpEmploye;
+
+        // Extraire les noms de rôles sous forme de tableau plat (ex: ["ROLE_ADMIN", "ROLE_EMPLOYE"])
+        const roles = (employeJson.role_id_Roles || []).map((r) => r.nomRole);
+        // Nettoyer l'objet imbriqué Sequelize et le remplacer par le tableau simple
+        delete employeJson.role_id_Roles;
+        employeJson.roles = roles;
 
         res.status(200).json({
             message: "Connexion reussie.",

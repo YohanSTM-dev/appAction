@@ -2,10 +2,12 @@ import _sequelize from "sequelize";
 const DataTypes = _sequelize.DataTypes;
 import _Caisse from  "./Caisse.js";
 import _CouleurTache from  "./CouleurTache.js";
+import _Conge from  "./Conge.js";
 import _DeclarationCasse from  "./DeclarationCasse.js";
 import _DemandeReapro from  "./DemandeReapro.js";
 import _Emplacement from  "./Emplacement.js";
 import _Employe from  "./Employe.js";
+import _FicheDePaie from  "./FicheDePaie.js";
 import _Magasin from  "./Magasin.js";
 import _Messagerie from  "./Messagerie.js";
 import _MotifCasse from  "./MotifCasse.js";
@@ -27,10 +29,12 @@ import _tache_planning from  "./tache_planning.js";
 export default function initModels(sequelize) {
   const Caisse = _Caisse.init(sequelize, DataTypes);
   const CouleurTache = _CouleurTache.init(sequelize, DataTypes);
+  const Conge = _Conge.init(sequelize, DataTypes);
   const DeclarationCasse = _DeclarationCasse.init(sequelize, DataTypes);
   const DemandeReapro = _DemandeReapro.init(sequelize, DataTypes);
   const Emplacement = _Emplacement.init(sequelize, DataTypes);
   const Employe = _Employe.init(sequelize, DataTypes);
+  const FicheDePaie = _FicheDePaie.init(sequelize, DataTypes);
   const Magasin = _Magasin.init(sequelize, DataTypes);
   const Messagerie = _Messagerie.init(sequelize, DataTypes);
   const MotifCasse = _MotifCasse.init(sequelize, DataTypes);
@@ -104,13 +108,23 @@ export default function initModels(sequelize) {
   Employe.belongsTo(TypeContrat, { as: "type_contrat", foreignKey: "type_contrat_id"});
   TypeContrat.hasMany(Employe, { as: "Employes", foreignKey: "type_contrat_id"});
 
+  // Relations pour les demandes de congé
+  Conge.belongsTo(Employe, { as: "employe", foreignKey: "employe_id" });
+  Employe.hasMany(Conge, { as: "Conges", foreignKey: "employe_id" });
+
+  // Relations pour les fiches de paie
+  FicheDePaie.belongsTo(Employe, { as: "employe", foreignKey: "employe_id" });
+  Employe.hasMany(FicheDePaie, { as: "FicheDePaies", foreignKey: "employe_id" });
+
   return {
     Caisse,
     CouleurTache,
+    Conge,
     DeclarationCasse,
     DemandeReapro,
     Emplacement,
     Employe,
+    FicheDePaie,
     Magasin,
     Messagerie,
     MotifCasse,

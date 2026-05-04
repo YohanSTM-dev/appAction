@@ -12,7 +12,7 @@ export const getAllDeclarationCasse = async (req, res) => {
       error: "Une erreur est survenue lors de la recuperation des DeclarationCasse.",
     });
   }
-};
+}; 
 
 export const createDeclarationCasse = async (req, res) => {
   try {

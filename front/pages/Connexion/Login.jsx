@@ -23,10 +23,16 @@ export default function Login(){
                 body: JSON.stringify({
                     emailEmploye: email.trim(),
                     mdpEmploye: password,
+                    
                 }),
             });
 
+            
+
             const data = await response.json().catch(() => ({}));
+
+            // DEBUG : affiche la réponse complète de l'API dans la console du navigateur
+            console.log("Réponse API login :", data);
 
             if (!response.ok) {
                 throw new Error(data?.error || "Connexion impossible.");
@@ -36,14 +42,19 @@ export default function Login(){
                 localStorage.setItem("employeConnecte", JSON.stringify(data.employe));
             }
 
-            alert("Connexion reussie !");
-            navigate("/direction");
+            // Redirection selon le rôle : Admin → espace direction, sinon → accueil employé
+            const roles = data?.employe?.roles || [];
+            const estAdmin = roles.some((r) => r.toLowerCase().includes("admin"));
+            navigate(estAdmin ? "/direction" : "/acceuil");
         } catch (error) {
             setErreur(error?.message || "Erreur lors de la connexion.");
         } finally {
             setLoading(false);
         }
     };
+    
+
+
 
     return(
         <div style={{ textAlign: "center", marginTop: "50px" }}>
