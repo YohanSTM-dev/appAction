@@ -46,7 +46,7 @@ CREATE TABLE Employe (
    id INT AUTO_INCREMENT,
    nomEmploye VARCHAR(50),
    prenomEmploye VARCHAR(50),
-   matriculeEmploye VARCHAR(50),
+   matriculeEmploye VARCHAR(50) NOT NULL UNIQUE,
    mdpEmploye VARCHAR(255), -- Augmenté à 255 pour le hashage du mot de passe (obligatoire en sécurité)
    date_embauche DATE,
    emailEmploye VARCHAR(100),
@@ -77,7 +77,7 @@ CREATE TABLE Caisse (
 CREATE TABLE Vehicule (
    id INT AUTO_INCREMENT,
    marque VARCHAR(50),
-   immatriculation VARCHAR(50), -- Remplacement de 'Immatricule'
+   immatriculation VARCHAR(50), 
    puissanceFisc INT,
    employe_id INT NOT NULL,
    PRIMARY KEY(id),
@@ -99,7 +99,7 @@ CREATE TABLE Messagerie (
    id INT AUTO_INCREMENT,
    texteMessagerie TEXT,
    dateEnvoi DATE,
-   est_lu BOOLEAN, -- Remplacement de LOGICAL
+   est_lu BOOLEAN, 
    employe_id INT NOT NULL,
    PRIMARY KEY(id),
    FOREIGN KEY(employe_id) REFERENCES Employe(id)
@@ -118,10 +118,10 @@ CREATE TABLE Produit (
    code25 VARCHAR(50),
    codeBarre VARCHAR(50),
    libelleProduit VARCHAR(50),
-   prixVente INT, -- À passer en DECIMAL(10,2) si tu as des centimes
+   prixVente INT, 
    seuilAlerteStock VARCHAR(50),
    colisage INT,
-   declaration_casse_id INT, -- Retrait du NOT NULL, un produit n'est pas forcément cassé
+   declaration_casse_id INT,
    PRIMARY KEY(id),
    FOREIGN KEY(declaration_casse_id) REFERENCES DeclarationCasse(id)
 );
@@ -180,3 +180,11 @@ CREATE TABLE stock (
    FOREIGN KEY(produit_id) REFERENCES Produit(id),
    FOREIGN KEY(emplacement_id) REFERENCES Emplacement(id)
 );
+
+-- Migration pour une base existante deja creee
+-- (si la table Employe existe deja, executer ces commandes)
+-- ALTER TABLE Employe
+-- MODIFY COLUMN matriculeEmploye VARCHAR(50) NOT NULL;
+--
+-- ALTER TABLE Employe
+-- ADD CONSTRAINT UQ_Employe_matriculeEmploye UNIQUE (matriculeEmploye);

@@ -1,9 +1,9 @@
 import express from "express";
-import { getAllMagasins, createMagasin } from "../controller/magasin.controller.js";
+import { createMagasin, getAllMagasins } from "../controller/magasin.controller.js";
 
 const router = express.Router();
 
-router.get("/magasins", getAllMagasins);
-router.post("/magasins", createMagasin);
+router.get("/", getAllMagasins);
+router.post("/", createMagasin);
 
-export default router; 
+export default router;

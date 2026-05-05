@@ -27,7 +27,7 @@ export default class stock extends Model {
       }
     }
   }, {
-    sequelize,
+    sequelize, 
     tableName: 'stock',
     timestamps: false,
     indexes: [
