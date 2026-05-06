@@ -3,8 +3,10 @@
 const TacheMag     = db.models["TacheMag"];
 const CouleurTache = db.models["CouleurTache"];
 
-// Retourne toutes les tâches avec leur couleur
-// GET /api/taches
+/**
+ * Retourne toutes les tâches avec leur couleur associée.
+ * GET /api/taches
+ */
 export const getAllTacheMag = async (req, res) => {
   try {
     const allTacheMag = await TacheMag.findAll({
@@ -17,8 +19,11 @@ export const getAllTacheMag = async (req, res) => {
   }
 };
 
-// Crée une nouvelle tâche (nomTache + couleur_tache_id)
-// POST /api/taches
+/**
+ * Crée une nouvelle tâche.
+ * Requiert nomTache et couleur_tache_id dans le body.
+ * POST /api/taches
+ */
 export const createTacheMag = async (req, res) => {
   try {
     const { nomTache, couleur_tache_id } = req.body;
@@ -33,8 +38,10 @@ export const createTacheMag = async (req, res) => {
   }
 };
 
-// Retourne toutes les couleurs disponibles pour créer des tâches
-// GET /api/taches/couleurs
+/**
+ * Retourne toutes les couleurs disponibles pour créer des tâches.
+ * GET /api/taches/couleurs
+ */
 export const getAllCouleurs = async (req, res) => {
   try {
     const couleurs = await CouleurTache.findAll();

@@ -17,6 +17,10 @@ export default class TypeContrat extends Model {
     nomTypeContrat: {
       type: DataTypes.STRING(50),
       allowNull: true
+    },
+    creneau: {
+      type: DataTypes.ENUM('matin', 'soir'),
+      allowNull: true   // null = flexible (peut faire matin ET soir)
     }
   }, {
     sequelize,

@@ -4,6 +4,7 @@ import {
     createTacheMag,
     getAllCouleurs,
 } from "../controller/tacheMag.controller.js";
+import { createCouleurTache } from "../controller/couleurTache.controller.js";
 
 const router = express.Router();
 
@@ -15,5 +16,7 @@ router.get("/couleurs", getAllCouleurs);
 
 // Créer une nouvelle tâche
 router.post("/", createTacheMag);
+
+router.post("/couleurs", createCouleurTache);
 
 export default router;

@@ -9,6 +9,7 @@ import DemandeConge from "../pages/Conge/DemandeConge.jsx";
 import GestionConges from "../pages/Conge/GestionConges.jsx";
 import CoffreFort from "../pages/Paie/CoffreFort.jsx";
 import GestionPlanning from "../pages/Planning/GestionPlanning.jsx";
+import MonPlanning from "../pages/Planning/MonPlanning.jsx";
 import EspaceRH from "../pages/RH/EspaceRH.jsx";
 import { estConnecte, estAdmin, estRH, estManager } from "./utils/roles.js";
 
@@ -96,6 +97,16 @@ function App() {
         element={
           <RoutePrivee>
             <CoffreFort />
+          </RoutePrivee>
+        }
+      />
+
+      {/* Mon planning (employé : vue lecture seule de sa semaine) */}
+      <Route
+        path="/planning/mon-planning"
+        element={
+          <RoutePrivee>
+            <MonPlanning />
           </RoutePrivee>
         }
       />

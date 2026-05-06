@@ -7,6 +7,7 @@
     "dev": "nodemon src/server.js",
     "start": "node src/server.js",
     "import:action": "node scripts/import-action-magasins.js",
+    "seed:users": "node scripts/seed-users.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

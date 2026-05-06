@@ -60,39 +60,38 @@ export default function Login() {
     };
 
     return (
-        <div style={{ textAlign: "center", marginTop: "50px" }}>
-            <h1>Page de connexion</h1>
-            <p>Connecte-toi avec ton email et ton mot de passe.</p>
+        <div className="login-page">
+            <div className="login-box">
+                {/* Logo Action */}
+                <span className="action-logo">action</span>
 
-            {/* Affiche le message d'erreur si présent */}
-            {erreur && <p style={{ color: "crimson" }}>{erreur}</p>}
+                <h2>Espace collaborateur</h2>
+                <p className="login-subtitle">Connecte-toi avec ton email et ton mot de passe.</p>
 
-            <form
-                onSubmit={handleSubmit}
-                className="form-containerInscription"
-                style={{ display: "flex", flexDirection: "column", maxWidth: "360px", margin: "0 auto", gap: "10px" }}
-            >
-                <input
-                    type="email"
-                    placeholder="Email"
-                    className="input-field"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                />
-                <input
-                    type="password"
-                    placeholder="Mot de passe"
-                    className="input-field"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                />
-                {/* Le bouton est désactivé pendant la requête pour éviter les double-envois */}
-                <button type="submit" disabled={loading}>
-                    {loading ? "Connexion..." : "Se connecter"}
-                </button>
-            </form>
+                {/* Message d'erreur */}
+                {erreur && <p className="login-error">⚠ {erreur}</p>}
+
+                <form onSubmit={handleSubmit}>
+                    <input
+                        type="email"
+                        placeholder="Adresse email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        required
+                    />
+                    <input
+                        type="password"
+                        placeholder="Mot de passe"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        required
+                    />
+                    {/* Désactivé pendant la requête pour éviter les double-envois */}
+                    <button type="submit" disabled={loading}>
+                        {loading ? "Connexion en cours…" : "Se connecter"}
+                    </button>
+                </form>
+            </div>
         </div>
     );
 }

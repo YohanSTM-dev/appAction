@@ -1,3 +1,10 @@
+/**
+ * Point d'entrée du serveur Express.
+ * - Configure CORS et le parsing JSON.
+ * - Vérifie la connexion à la base de données au démarrage.
+ * - Monte toutes les routes de l'API sous le préfixe /api.
+ * - Écoute sur le port 5000 par défaut (surcharger via variable d'env PORT).
+ */
 import express from "express";
 import cors from "cors";
 import db from "./db/connexionBdd.js";

@@ -1,7 +1,11 @@
 import db from "../db/connexionBdd.js";
 
-const Magasin = db.models.Magasin; 
+const Magasin = db.models.Magasin;
 
+/**
+ * Retourne la liste de tous les magasins.
+ * GET /api/magasins
+ */
 export const getAllMagasins = async (req, res) => {
     try{
     const listeMagasins = await Magasin.findAll();
@@ -12,7 +16,11 @@ export const getAllMagasins = async (req, res) => {
     }
 }
 
-export const createMagasin = async (req,res) => {
+/**
+ * Crée un nouveau magasin depuis le body de la requête.
+ * POST /api/magasins
+ */
+export const createMagasin = async (req, res) => {
     try{
         const newMagasin = await Magasin.create(req.body);
         res.status(201).json(newMagasin);

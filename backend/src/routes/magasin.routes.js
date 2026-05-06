@@ -3,7 +3,7 @@ import { createMagasin, getAllMagasins } from "../controller/magasin.controller.
 
 const router = express.Router();
 
-router.get("/", getAllMagasins);
-router.post("/", createMagasin);
+router.get("/magasins", getAllMagasins);
+router.post("/magasins", createMagasin);
 
 export default router;

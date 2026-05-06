@@ -188,3 +188,12 @@ CREATE TABLE stock (
 --
 -- ALTER TABLE Employe
 -- ADD CONSTRAINT UQ_Employe_matriculeEmploye UNIQUE (matriculeEmploye);
+--
+-- Ajout du créneau (matin/soir) sur le planning et le type de contrat
+-- ALTER TABLE Planning ADD COLUMN creneau ENUM('matin','soir') NULL AFTER statut;
+-- ALTER TABLE TypeContrat ADD COLUMN creneau ENUM('matin','soir') NULL;
+--
+-- Exemples de mise à jour des types de contrat existants :
+-- UPDATE TypeContrat SET creneau = 'matin' WHERE nomTypeContrat LIKE '%matin%';
+-- UPDATE TypeContrat SET creneau = 'soir'  WHERE nomTypeContrat LIKE '%soir%';
+-- (les contrats sans créneau restent NULL = flexible)

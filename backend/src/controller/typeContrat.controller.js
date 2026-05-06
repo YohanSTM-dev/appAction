@@ -2,6 +2,10 @@ import db from "../db/connexionBdd.js";
 
 const TypeContrat = db.models.TypeContrat;
 
+/**
+ * Retourne tous les types de contrat.
+ * GET /api/typeContrats
+ */
 export const getAllTypeContrat = async (req, res) => {
   try {
     const allTypeContrat = await TypeContrat.findAll();
@@ -15,6 +19,10 @@ export const getAllTypeContrat = async (req, res) => {
   }
 };
 
+/**
+ * Crée un nouveau type de contrat.
+ * POST /api/typeContrats
+ */
 export const createTypeContrat = async (req, res) => {
   try {
     const newTypeContrat = await TypeContrat.create(req.body);

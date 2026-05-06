@@ -5,9 +5,13 @@ const Employe = db.models.Employe;
 const Role = db.models.Role;
 const Magasin = db.models.Magasin;
 const TypeContrat = db.models.TypeContrat;
-const SALT_ROUNDS = 12;
-const BCRYPT_HASH_REGEX = /^\$2[aby]\$\d{2}\$.{53}$/;
+const SALT_ROUNDS = 12; // Nombre de tours de hachage bcrypt (plus c'est haut, plus c'est sécurisé)
+const BCRYPT_HASH_REGEX = /^\$2[aby]\$\d{2}\$.{53}$/; // Détecte si un mot de passe est déjà haché bcrypt
 
+/**
+ * Génère un matricule candidat au format EMP{timestamp}{6 chiffres aléatoires}.
+ * N'effectue aucune vérification en base — utiliser genererMatriculeUnique() pour garantir l'unicité.
+ */
 const genererMatricule = () => {
     const randomPart = Math.floor(Math.random() * 1000000)
         .toString()
@@ -15,6 +19,10 @@ const genererMatricule = () => {
     return `EMP${Date.now()}${randomPart}`;
 };
 
+/**
+ * Génère un matricule garanti unique en base de données.
+ * Effectue jusqu'à 20 tentatives avant de lever une erreur.
+ */
 const genererMatriculeUnique = async () => {
     for (let index = 0; index < 20; index += 1) {
         const candidat = genererMatricule();
@@ -27,6 +35,10 @@ const genererMatriculeUnique = async () => {
     throw new Error("Impossible de generer un matricule unique.");
 };
 
+/**
+ * Retourne la liste complète de tous les employés.
+ * GET /api/employes
+ */
 export const getAllEmployes = async (req, res) => {
     try {
         const employes = await Employe.findAll();
@@ -37,6 +49,13 @@ export const getAllEmployes = async (req, res) => {
     }
 };
 
+/**
+ * Crée un nouvel employé.
+ * - Génère automatiquement le matricule si non fourni.
+ * - Hache le mot de passe avec bcrypt avant insertion.
+ * - Retourne l'objet créé sans le mot de passe.
+ * POST /api/employes
+ */
 export const createEmploye = async (req, res) => {
     try {
         const payload = { ...req.body };
@@ -69,6 +88,10 @@ export const createEmploye = async (req, res) => {
     }
 }
 
+/**
+ * Trouve un employé via son adresse e-mail (sans exposer le mot de passe).
+ * GET /api/employes/email/:email
+ */
 export const getEmployeByEmail = async (req, res) => {
     try {
         const { email } = req.params;
@@ -86,6 +109,13 @@ export const getEmployeByEmail = async (req, res) => {
     }
 }
 
+/**
+ * Authentifie un employé par email + mot de passe.
+ * - Compare le mot de passe avec bcrypt.
+ * - Migration automatique : si l'ancien mot de passe est en clair, il est haché puis sauvegardé.
+ * - Retourne l'employé sans le mot de passe, avec la liste de ses rôles (tableau plat de strings).
+ * POST /api/employes/login
+ */
 export const loginEmploye = async (req, res) => {
     try {
         const { emailEmploye, mdpEmploye } = req.body;
@@ -157,7 +187,11 @@ export const getEmployesByMagasin = async (req, res) => {
         const { magasinId } = req.params;
         const employes = await Employe.findAll({
             where: { magasin_id: Number(magasinId) },
-            attributes: { exclude: ["mdpEmploye"] }, // on n'expose jamais le mot de passe
+            attributes: { exclude: ["mdpEmploye"] },
+            include: [
+                // On embarque le type de contrat pour afficher le créneau imposé dans le planning
+                { model: TypeContrat, as: "type_contrat", attributes: ["id", "nomTypeContrat", "heureContrat", "creneau"] },
+            ],
         });
         res.status(200).json(employes);
     } catch (error) {

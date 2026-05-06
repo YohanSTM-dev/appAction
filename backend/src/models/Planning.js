@@ -22,6 +22,10 @@ export default class Planning extends Model {
       type: DataTypes.STRING(50),
       allowNull: true
     },
+    creneau: {
+      type: DataTypes.ENUM('matin', 'soir'),
+      allowNull: true   // null = pas encore défini / rétrocompatibilité
+    },
     employe_id: {
       type: DataTypes.INTEGER,
       allowNull: false,

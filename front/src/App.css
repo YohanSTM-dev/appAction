@@ -1,42 +1,149 @@
+/* ═══════════════════════════════════════════════════════════════
+   App.css — classes utilitaires thème Action
+   ═══════════════════════════════════════════════════════════════ */
+
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+  min-height: 100vh;
+  background-color: var(--action-bg);
+}
+
+/* ── Logo Action ──────────────────────────────────────────────────
+   Carré rouge avec "action" en blanc, mimant l'enseigne réelle    */
+.action-logo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--action-red);
+  color: #fff;
+  font-weight: 900;
+  font-size: 1.5em;
+  letter-spacing: -0.5px;
+  padding: 5px 14px;
+  border-radius: 5px;
+  font-family: 'Arial Black', 'Arial Bold', Arial, sans-serif;
+  user-select: none;
+  line-height: 1;
+}
+
+/* ── Barre de navigation ─────────────────────────────────────── */
+.action-navbar {
+  background: var(--action-red);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 0 24px;
+  height: 56px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+.action-navbar .action-logo {
+  background: #fff;
+  color: var(--action-red);
+  font-size: 1.1em;
+  padding: 4px 10px;
+}
+.action-navbar .nav-title {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 14px;
+  font-weight: 600;
+}
+.action-navbar .nav-spacer {
+  flex: 1;
+}
+.action-navbar button {
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  font-size: 13px;
+  padding: 5px 14px;
+}
+.action-navbar button:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.28);
+  box-shadow: none;
+}
+
+/* ── Page de connexion ───────────────────────────────────────── */
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: var(--action-bg);
+  padding: 20px;
+}
+.login-box {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.10);
+  padding: 40px 36px;
+  width: 100%;
+  max-width: 380px;
   text-align: center;
 }
-
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
+.login-box h2 {
+  margin: 20px 0 4px;
+  font-size: 1.25em;
+  color: var(--action-dark);
 }
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
+.login-box .login-subtitle {
+  color: var(--action-gray);
+  font-size: 13px;
+  margin: 0 0 24px;
 }
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.login-box form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
-
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.login-box button[type="submit"] {
+  width: 100%;
+  padding: 11px;
+  font-size: 1em;
+  margin-top: 4px;
 }
-
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
-}
-
-.card {
-  padding: 2em;
+.login-error {
+  color: var(--action-red);
+  font-size: 13px;
+  background: var(--action-red-light);
+  border-radius: 6px;
+  padding: 8px 12px;
+  margin-bottom: 4px;
+  text-align: left;
 }
 
-.read-the-docs {
-  color: #888;
+/* ── Bouton secondaire (gris neutre) ─────────────────────────── */
+.btn-secondary {
+  background: var(--action-white);
+  color: var(--action-dark);
+  border: 1.5px solid var(--action-border);
 }
+.btn-secondary:hover:not(:disabled) {
+  background: var(--action-gray-light);
+  box-shadow: none;
+}
+
+/* ── Carte / panel ───────────────────────────────────────────── */
+.action-card {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.08);
+  padding: 24px;
+}
+
+/* ── Badges statut ───────────────────────────────────────────── */
+.badge {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 99px;
+  font-size: 12px;
+  font-weight: 600;
+}
+.badge-red    { background: #fee2e2; color: #b91c1c; }
+.badge-green  { background: #dcfce7; color: #15803d; }
+.badge-orange { background: #ffedd5; color: #c2410c; }
+.badge-blue   { background: #dbeafe; color: #1d4ed8; }
+.badge-gray   { background: #f1f5f9; color: #475569; }
+

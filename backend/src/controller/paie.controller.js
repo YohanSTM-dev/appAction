@@ -5,7 +5,12 @@ const Planning = db.models.Planning;
 const TypeContrat = db.models.TypeContrat;
 const FicheDePaie = db.models.FicheDePaie;
 
-// Calcule le nombre de jours ouvrés (lundi-vendredi) entre deux dates incluses
+/**
+ * Calcule le nombre de jours ouvrés (lundi–vendredi) entre deux dates incluses.
+ * @param {Date|string} dateDebut
+ * @param {Date|string} dateFin
+ * @returns {number}
+ */
 const calculerJoursOuvres = (dateDebut, dateFin) => {
     let jours = 0;
     const courant = new Date(dateDebut);
@@ -19,13 +24,21 @@ const calculerJoursOuvres = (dateDebut, dateFin) => {
     return jours;
 };
 
-// Extrait la valeur numérique d'un champ heureContrat ("35h", "35 heures", "35" → 35)
+/**
+ * Extrait la valeur numérique d'un champ heureContrat ("35h", "35 heures", "35" → 35).
+ * @param {string|number} heureContrat
+ * @returns {number}
+ */
 const extraireHeuresContrat = (heureContrat) => {
     const valeur = parseInt(String(heureContrat || "0").replace(/[^0-9]/g, ""), 10);
     return isNaN(valeur) ? 0 : valeur;
 };
 
-// Calcul des heures sup d'un employé pour un mois et une année donnés
+/**
+ * Calcule les heures supplémentaires d'un employé pour un mois/année donnés.
+ * Compare les heures effectuées (plannings × 8h/jour ouvré) aux heures du contrat (hebdo × 4,33).
+ * POST /api/paie/heures-sup  — Body: { employe_id, mois, annee }
+ */
 export const calculerHeureSup = async (req, res) => {
     try {
         const { employe_id, mois, annee } = req.body;
@@ -88,7 +101,10 @@ export const calculerHeureSup = async (req, res) => {
     }
 };
 
-// Récupérer toutes les fiches de paie d'un employé (du plus récent au plus ancien)
+/**
+ * Retourne toutes les fiches de paie d'un employé, triées du plus récent au plus ancien.
+ * GET /api/paie/fiches/:employe_id
+ */
 export const getFichesDePaieByEmploye = async (req, res) => {
     try {
         const { employe_id } = req.params;
@@ -105,7 +121,10 @@ export const getFichesDePaieByEmploye = async (req, res) => {
     }
 };
 
-// Créer et enregistrer une fiche de paie
+/**
+ * Crée et enregistre une fiche de paie en base.
+ * POST /api/paie/fiches  — Body: { employe_id, mois, annee, montantNet?, heuresTravaillees?, heuresSupplementaires? }
+ */
 export const createFicheDePaie = async (req, res) => {
     try {
         const { employe_id, mois, annee, montantNet, heuresTravaillees, heuresSupplementaires } = req.body;
