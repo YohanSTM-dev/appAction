@@ -70,20 +70,83 @@ appAction--
 
 ## Installation & démarrage
 
-### Prérequis
-- Node.js ≥ 18
-- MySQL accessible (voir config ci-dessous)
+Il y a deux façons de lancer le projet.
 
-### Backend
+---
+
+### Méthode 1 — Docker (recommandé, sans base de données à configurer)
+
+**Prérequis :** [Docker Desktop](https://www.docker.com/products/docker-desktop/) installé.
+
+```bash
+# 1. Cloner le dépôt
+git clone https://github.com/YohanSTM-dev/appAction.git
+cd appAction
+
+# 2. Basculer sur la branche d'installation
+git checkout installation-projet
+
+# 3. Lancer tous les services (MySQL + backend + frontend)
+docker-compose up --build
+```
+
+Une fois les containers démarrés :
+
+| Service | URL |
+|---------|-----|
+| Frontend | http://localhost:3000 |
+| API backend | http://localhost:5000/api |
+| MySQL (optionnel) | localhost:**3307** |
+
+**Comptes de test disponibles :**
+
+| Rôle | Email | Mot de passe |
+|------|-------|-------------|
+| Employé | jean.dupont@action.fr | Employe2024! |
+| Manager | sophie.martin@action.fr | Manager2024! |
+| RH | claire.bernard@action.fr | RH2024! |
+| Admin | thomas.leroy@action.fr | Admin2024! |
+
+Pour tout arrêter :
+```bash
+docker-compose down
+```
+
+Pour tout arrêter et supprimer les données :
+```bash
+docker-compose down -v
+```
+
+---
+
+### Méthode 2 — Installation manuelle (avec votre propre MySQL)
+
+**Prérequis :**
+- Node.js ≥ 18
+- MySQL accessible (adapter `backend/src/config/db.config.js`)
+
+**1. Base de données**
+
+Importer le schéma dans votre MySQL :
+```bash
+mysql -u root -p < backend/src/db/Bdd.sql
+```
+
+**2. Backend**
 
 ```bash
 cd backend
 npm install
-node src/server.js
+npm run dev
 # → API disponible sur http://localhost:5000
 ```
 
-### Frontend
+Créer les utilisateurs de test (optionnel) :
+```bash
+npm run seed:users
+```
+
+**3. Frontend**
 
 ```bash
 cd front
@@ -98,22 +161,19 @@ npm run dev
 
 Fichier : `backend/src/config/db.config.js`
 
+Les paramètres sont lus depuis les **variables d'environnement**, avec fallback sur les valeurs de développement :
+
 ```js
 export default {
-  HOST: "192.168.56.102",   // Adresse du serveur MySQL
-  USER: "appAction",         // Utilisateur MySQL
-  PASSWORD: "appAction",     // Mot de passe MySQL
-  DB: "appAction",           // Nom de la base
-  PORT: 3306,
-  dialect: "mysql",
-  pool: { max: 5, min: 0, acquire: 30000, idle: 10000 },
+  HOST:     process.env.DB_HOST     || "192.168.56.102",
+  USER:     process.env.DB_USER     || "appAction",
+  PASSWORD: process.env.DB_PASSWORD || "appAction",
+  DB:       process.env.DB_NAME     || "appAction",
+  PORT:     process.env.DB_PORT     || 3306,
 };
 ```
 
-> Pour régénérer les modèles Sequelize depuis la base :
-> ```bash
-> npx sequelize-auto -h 192.168.56.102 -d appAction -u appAction -x appAction -p 3306 --dialect mysql -o "./src/models" -l esm
-> ```
+Pour surcharger en local, copier `.env.example` en `.env` à la racine et adapter les valeurs.
 
 ---
 
