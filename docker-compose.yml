@@ -16,7 +16,7 @@ services:
       - mysql_data:/var/lib/mysql          # données persistantes
       - ./docker/init.sql:/docker-entrypoint-initdb.d/init.sql  # schéma + seed
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "appAction", "-paddAction"]
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "appAction", "-pappAction"]
       interval: 10s
       timeout: 5s
       retries: 10
