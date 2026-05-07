@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { getRedirectionApresLogin } from "../../src/utils/roles.js";
 
 // Adresse du serveur backend
-const API_BASE_URL = "http://localhost:5000/api";
+const API_BASE_URL = import.meta.env.VITE_API_URL ?? "http://localhost:5000/api";
 
 export default function Login() {
     // Hook React Router pour naviguer entre les pages
