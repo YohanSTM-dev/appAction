@@ -76,7 +76,10 @@ Il y a deux façons de lancer le projet.
 
 ### Méthode 1 — Docker (recommandé, sans base de données à configurer)
 
-**Prérequis :** [Docker Desktop](https://www.docker.com/products/docker-desktop/) installé.
+**Prérequis :**
+- Windows / Mac : [Docker Desktop](https://www.docker.com/products/docker-desktop/)
+- Linux : installer docker-compose avec `apt-get update && apt-get install -y docker-compose`
+
 
 ```bash
 # 1. Cloner le dépôt
