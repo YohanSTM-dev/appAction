@@ -68,15 +68,34 @@ appAction--
 
 ---
 
-## Installation & démarrage
+## Installation & démarrage !!!
 
 Il y a deux façons de lancer le projet.
 
 ---
 
-### Méthode 1 — Docker (recommandé, sans base de données à configurer)
+### Méthode 1 — Docker (plus facile)
 
-**Prérequis :** [Docker Desktop](https://www.docker.com/products/docker-desktop/) installé.
+#### Installer Docker (si pas déjà installé)
+
+**Windows / Mac :**
+Télécharger et installer [Docker Desktop](https://www.docker.com/products/docker-desktop/), puis le lancer.
+
+**Linux (Debian / Ubuntu) :**
+```bash
+sudo apt-get update
+sudo apt-get install -y docker.io docker-compose
+sudo systemctl enable docker
+sudo systemctl start docker
+```
+
+**Vérification que Docker est bien installé :**
+```bash
+docker --version
+docker-compose --version
+```
+
+---
 
 ```bash
 # 1. Cloner le dépôt
@@ -94,18 +113,20 @@ Une fois les containers démarrés :
 
 | Service | URL |
 |---------|-----|
-| Frontend | http://localhost:3000 |
+| Frontend | http://localhost:3000/login |
 | API backend | http://localhost:5000/api |
-| MySQL (optionnel) | localhost:**3307** |
+
 
 **Comptes de test disponibles :**
 
-| Rôle | Email | Mot de passe |
-|------|-------|-------------|
-| Employé | jean.dupont@action.fr | Employe2024! |
-| Manager | sophie.martin@action.fr | Manager2024! |
-| RH | claire.bernard@action.fr | RH2024! |
-| Admin | thomas.leroy@action.fr | Admin2024! |
+> La connexion se fait avec le **matricule** (pas l'email).
+
+| Rôle | Matricule | Mot de passe |
+|------|-----------|-------------|
+| Employé | EMP-001 | `Employe2024!` |
+| Manager | EMP-002 | `Manager2024!` |
+| RH | EMP-003 | `RH2024!` |
+| Admin | EMP-004 | `Admin2024!` |
 
 Pour tout arrêter :
 ```bash
@@ -165,7 +186,7 @@ Les paramètres sont lus depuis les **variables d'environnement**, avec fallback
 
 ```js
 export default {
-  HOST:     process.env.DB_HOST     || "192.168.56.102",
+  HOST:     process.env.DB_HOST     || "192.168.56.102", // votre ip ici
   USER:     process.env.DB_USER     || "appAction",
   PASSWORD: process.env.DB_PASSWORD || "appAction",
   DB:       process.env.DB_NAME     || "appAction",
@@ -180,6 +201,8 @@ Pour surcharger en local, copier `.env.example` en `.env` à la racine et adapte
 ## Routes API
 
 Toutes les routes sont préfixées par `/api`.
+
+exemple avec les routes crée :
 
 | Méthode | Route | Description |
 |---------|-------|-------------|
@@ -217,102 +240,6 @@ Toutes les routes sont préfixées par `/api`.
 | GET | `/api/taches` | Liste toutes les tâches (avec couleur) |
 | GET | `/api/taches/couleurs` | Liste toutes les couleurs disponibles |
 | POST | `/api/taches` | Créer une tâche |
-
----
-
-## Détail des modules
-
-### Employés
-
-**Fichiers** : `controller/employe.controller.js` · `routes/employe.routes.js`
-
-| Fonction | Description |
-|----------|-------------|
-| `genererMatricule()` | Génère un matricule aléatoire au format `EMP{timestamp}{6 chiffres}` |
-| `genererMatriculeUnique()` | Appelle `genererMatricule()` en boucle (max 20 essais) jusqu'à trouver un matricule libre en base |
-| `getAllEmployes` | Retourne la liste complète des employés |
-| `getAllEmployesAvecDetails` | Retourne les employés avec leur magasin et leur type de contrat (pour l'espace RH) — le mot de passe est exclu |
-| `getEmployeByEmail` | Trouve un employé via son adresse e-mail |
-| `getEmployesByMagasin` | Retourne tous les employés affectés à un magasin donné |
-| `createEmploye` | Crée un employé : génère le matricule si absent, hache le mot de passe avec bcrypt (12 tours), retourne l'objet sans le mot de passe |
-| `loginEmploye` | Authentifie un employé : compare le mot de passe avec bcrypt, migre automatiquement les anciens comptes non hachés, retourne l'employé + la liste de ses rôles |
-| `updateEmploye` | Met à jour les infos RH (nom, prénom, e-mail, magasin, contrat, date d'embauche) — ne touche pas au mot de passe |
-
----
-
-### Magasins
-
-**Fichiers** : `controller/magasin.controller.js` · `routes/magasin.routes.js`
-
-| Fonction | Description |
-|----------|-------------|
-| `getAllMagasins` | Retourne la liste de tous les magasins |
-| `createMagasin` | Crée un nouveau magasin depuis le body de la requête |
-
----
-
-### Types de contrat
-
-**Fichiers** : `controller/typeContrat.controller.js` · `routes/typeContrat.routes.js`
-
-| Fonction | Description |
-|----------|-------------|
-| `getAllTypeContrat` | Retourne tous les types de contrat |
-| `createTypeContrat` | Crée un nouveau type de contrat |
-
----
-
-### Congés
-
-**Fichiers** : `controller/conge.controller.js` · `routes/conge.routes.js`
-
-| Fonction | Description |
-|----------|-------------|
-| `createConge` | Crée une demande de congé avec le statut `"En attente"` — valide que `dateDebut ≤ dateFin` |
-| `getAllConges` | Retourne toutes les demandes avec les infos de l'employé (nom, prénom, matricule) — utilisé par le manager |
-| `getCongesByEmploye` | Retourne les demandes d'un employé spécifique via son `employe_id` |
-| `updateStatutConge` | Met le statut d'une demande à `"Validé"` ou `"Refusé"` |
-
----
-
-### Paie
-
-**Fichiers** : `controller/paie.controller.js` · `routes/paie.routes.js`
-
-| Fonction | Description |
-|----------|-------------|
-| `calculerJoursOuvres(dateDebut, dateFin)` | *(interne)* Compte les jours du lundi au vendredi entre deux dates |
-| `extraireHeuresContrat(heureContrat)` | *(interne)* Extrait l'entier depuis un champ texte comme `"35h"` ou `"35 heures"` |
-| `calculerHeureSup` | Calcule les heures supplémentaires d'un employé pour un mois/année : compare les heures effectuées (plannings du mois × 8h/jour ouvré) au contrat théorique (hebdo × 4,33) |
-| `getFichesDePaieByEmploye` | Retourne toutes les fiches de paie d'un employé, triées du plus récent au plus ancien |
-| `createFicheDePaie` | Enregistre une fiche de paie en base (montant net, heures travaillées, heures sup) |
-
----
-
-### Planning
-
-**Fichiers** : `controller/planning.controller.js` · `routes/planning.routes.js`
-
-| Fonction | Description |
-|----------|-------------|
-| `getAllPlanning` | Retourne tous les plannings (sans filtre) |
-| `getPlanningsSemaine` | Retourne les plannings d'un magasin pour les 7 jours à partir d'une date `debut` — inclut l'employé et ses tâches avec couleur |
-| `assignerTache` | Assigne une tâche à un employé pour un jour précis — crée automatiquement le planning du jour s'il n'existe pas (`findOrCreate`) |
-| `retirerTache` | Supprime l'association tâche/planning dans la table `tache_planning` |
-| `createPlanning` | Crée un planning manuellement depuis le body |
-| `updateStatutPlanning` | Met à jour le statut d'un planning (`en_cours`, `terminé`, etc.) |
-
----
-
-### Tâches
-
-**Fichiers** : `controller/tacheMag.controller.js` · `routes/tacheMag.routes.js`
-
-| Fonction | Description |
-|----------|-------------|
-| `getAllTacheMag` | Retourne toutes les tâches avec leur couleur associée |
-| `createTacheMag` | Crée une tâche — requiert `nomTache` et `couleur_tache_id` |
-| `getAllCouleurs` | Retourne toutes les couleurs disponibles (pour le formulaire de création de tâche) |
 
 ---
 
