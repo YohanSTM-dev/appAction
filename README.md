@@ -76,10 +76,26 @@ Il y a deux façons de lancer le projet.
 
 ### Méthode 1 — Docker (recommandé, sans base de données à configurer)
 
-**Prérequis :**
-- Windows / Mac : [Docker Desktop](https://www.docker.com/products/docker-desktop/)
-- Linux : installer docker-compose avec `apt-get update && apt-get install -y docker-compose`
+#### Installer Docker (si pas déjà installé)
 
+**Windows / Mac :**
+Télécharger et installer [Docker Desktop](https://www.docker.com/products/docker-desktop/), puis le lancer.
+
+**Linux (Debian / Ubuntu) :**
+```bash
+sudo apt-get update
+sudo apt-get install -y docker.io docker-compose
+sudo systemctl enable docker
+sudo systemctl start docker
+```
+
+**Vérifier que Docker est bien installé :**
+```bash
+docker --version
+docker-compose --version
+```
+
+---
 
 ```bash
 # 1. Cloner le dépôt
@@ -103,12 +119,14 @@ Une fois les containers démarrés :
 
 **Comptes de test disponibles :**
 
-| Rôle | Email | Mot de passe |
-|------|-------|-------------|
-| Employé | jean.dupont@action.fr | Employe2024! |
-| Manager | sophie.martin@action.fr | Manager2024! |
-| RH | claire.bernard@action.fr | RH2024! |
-| Admin | thomas.leroy@action.fr | Admin2024! |
+> La connexion se fait avec le **matricule** (pas l'email).
+
+| Rôle | Matricule | Mot de passe |
+|------|-----------|-------------|
+| Employé | EMP-001 | `Employe2024!` |
+| Manager | EMP-002 | `Manager2024!` |
+| RH | EMP-003 | `RH2024!` |
+| Admin | EMP-004 | `Admin2024!` |
 
 Pour tout arrêter :
 ```bash
