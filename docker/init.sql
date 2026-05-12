@@ -237,28 +237,5 @@ INSERT INTO TacheMag (id, nomTache, couleur_tache_id) VALUES
     (4, 'Inventaire',         1),
     (5, 'Formation sécurité', 3);
 
--- Employés (mots de passe bcrypt — voir tableau ci-dessous)
--- EMP-001 : Employe2024!
--- EMP-002 : Manager2024!
--- EMP-003 : RH2024!
--- EMP-004 : Admin2024!
-INSERT INTO Employe (id, nomEmploye, prenomEmploye, matriculeEmploye, mdpEmploye, date_embauche, emailEmploye, magasin_id, type_contrat_id) VALUES
-    (1, 'Dupont',  'Jean',    'EMP-001', '$2b$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMqJqhkWq1aIlqZEZQOWYkKnbW', '2023-03-15', 'jean.dupont@action.fr',    1, 1),
-    (2, 'Martin',  'Sophie',  'EMP-002', '$2b$12$X8vQ9p2KmN7rL4sT6uY3aO1bC5dE8fG0hI9jK2lM3nP4qR5sT6uV7', '2021-09-01', 'sophie.martin@action.fr',  1, 1),
-    (3, 'Bernard', 'Claire',  'EMP-003', '$2b$12$A1bC2dE3fG4hI5jK6lM7nO8pQ9rS0tU1vW2xY3zA4bC5dE6fG7hI8', '2020-06-20', 'claire.bernard@action.fr', 1, 1),
-    (4, 'Leroy',   'Thomas',  'EMP-004', '$2b$12$B2cD3eF4gH5iJ6kL7mN8oP9qR0sT1uV2wX3yZ4aB5cD6eF7gH8iJ9', '2019-01-10', 'thomas.leroy@action.fr',   1, 1),
-    (5, 'Petit',   'Marie',   'EMP-005', '$2b$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMqJqhkWq1aIlqZEZQOWYkKnbW', '2024-01-08', 'marie.petit@action.fr',    1, 2),
-    (6, 'Moreau',  'Lucas',   'EMP-006', '$2b$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMqJqhkWq1aIlqZEZQOWYkKnbW', '2024-02-12', 'lucas.moreau@action.fr',   1, 3);
-
--- Association employés ↔ rôles
-INSERT INTO employe_role (employe_id, role_id) VALUES
-    (1, 1),  -- Jean     → employé
-    (2, 2),  -- Sophie   → manager
-    (3, 3),  -- Claire   → RH
-    (4, 4),  -- Thomas   → admin
-    (5, 1),  -- Marie    → employé
-    (6, 1);  -- Lucas    → employé
-
--- Note : les mots de passe bcrypt ci-dessus sont des placeholders.
--- Le script seed-users.js les générera correctement au démarrage.
--- Voir docker-compose.yml : le service backend lance seed:users après démarrage.
+-- Employés et leurs rôles sont insérés par seed-users.js au démarrage du backend.
+-- Voir docker-compose.yml : command "node src/server.js & sleep 5 && node scripts/seed-users.js"
