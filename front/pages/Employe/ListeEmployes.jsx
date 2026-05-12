@@ -5,7 +5,7 @@ export default function ListeEmployes() {
   const [erreur, setErreur] = useState(null);
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/employes")
+    fetch((import.meta.env.VITE_API_URL ?? "/api") + "/employes")
       .then((reponse) => {
         if (!reponse.ok) {
           throw new Error("Impossible de joindre l'API");
