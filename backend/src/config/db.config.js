@@ -1,5 +1,5 @@
 export default {
-  HOST: process.env.DB_HOST || "192.168.56.102",
+  HOST: process.env.DB_HOST || "192.168.56.40",
   USER: process.env.DB_USER || "appAction",
   PASSWORD: process.env.DB_PASSWORD || "appAction",
   DB: process.env.DB_NAME || "appAction",
