@@ -1,9 +1,9 @@
 export default {
-  HOST: "192.168.56.102",
-  USER: "appAction", // userAction
-  PASSWORD: "appAction", // userAction
-  DB: "appAction",
-  PORT: 3306,
+  HOST: process.env.DB_HOST || "localhost",
+  USER: process.env.DB_USER || "appAction",
+  PASSWORD: process.env.DB_PASSWORD || "appAction",
+  DB: process.env.DB_NAME || "appAction",
+  PORT: Number(process.env.DB_PORT) || 3306,
   dialect: "mysql",
   pool: {
     max: 5,
