@@ -146,6 +146,22 @@ docker-compose down -v
 - Node.js ≥ 18
 - MySQL accessible (adapter `backend/src/config/db.config.js`)
 
+#### Installer Node.js (si pas déjà installé)
+
+**Windows / Mac :**
+Télécharger et installer [Node.js LTS](https://nodejs.org/), puis vérifier :
+```bash
+node --version
+npm --version
+```
+
+**Linux — via apt :**
+```bash
+sudo apt update
+sudo apt install -y nodejs npm
+node --version
+```
+
 **1. Base de données**
 
 Importer le schéma dans votre MySQL :
