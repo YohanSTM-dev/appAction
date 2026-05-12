@@ -119,14 +119,14 @@ Une fois les containers démarrés :
 
 **Comptes de test disponibles :**
 
-> La connexion se fait avec le **matricule** (pas l'email).
+> La connexion se fait avec l'**email** et le mot de passe.
 
-| Rôle | Matricule | Mot de passe |
-|------|-----------|-------------|
-| Employé | EMP-001 | `Employe2024!` |
-| Manager | EMP-002 | `Manager2024!` |
-| RH | EMP-003 | `RH2024!` |
-| Admin | EMP-004 | `Admin2024!` |
+| Rôle | Email | Mot de passe |
+|------|-------|-------------|
+| Employé | `jean.dupont@action.fr` | `Employe2024!` |
+| Manager | `sophie.martin@action.fr` | `Manager2024!` |
+| RH | `claire.bernard@action.fr` | `RH2024!` |
+| Admin | `thomas.leroy@action.fr` | `Admin2024!` |
 
 Pour tout arrêter :
 ```bash

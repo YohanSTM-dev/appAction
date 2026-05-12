@@ -27,7 +27,8 @@ db.sequelize
     console.log("Connexion a la base de donnees reussie.");
   })
   .catch((err) => {
-    console.error("Erreur de connexion a la base de donnees :", err);
+    console.error("Erreur de connexion a la base de donnees :", err.message);
+    process.exit(1); // Docker va redemarrer le container jusqu'a ce que MySQL soit pret
   });
 
 app.use("/api/employes", employeRoutes);
